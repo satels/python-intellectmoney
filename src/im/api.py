@@ -1,9 +1,9 @@
 import requests
 
-from im_api.models import (
+from im.models import (
     BaseResponse, Credentials, GetInvoicesHistory, GetPaymentsHistory, InvoicesHistoryList,
-    InvoicesResponse, OperationCode, PaymentsHistoryList, PaymentsResponse,
-    UserToken, UserTokenData)
+    InvoicesResponse, OperationCode, PaymentsHistoryList, PaymentsResponse, UserToken,
+    UserTokenData)
 
 
 class ApiException(Exception):
