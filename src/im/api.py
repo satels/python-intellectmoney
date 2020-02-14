@@ -10,7 +10,7 @@ class ApiException(Exception):
     pass
 
 
-def _get_data(part_of_url: str, data: dict, timeout: int = 30) -> dict:
+def _get_result(part_of_url: str, data: dict, timeout: int = 30) -> dict:
     data = requests.post(f'https://api.intellectmoney.ru/personal/{part_of_url}',
                          data=data,
                          headers={'Accept': 'text/json'},
@@ -18,19 +18,17 @@ def _get_data(part_of_url: str, data: dict, timeout: int = 30) -> dict:
     resp = BaseResponse(**data)
     if resp.OperationState.Code != OperationCode.Success:
         raise ApiException(data)
-    return data
+    return resp.Result
 
 
 def getUserToken(credentials: Credentials) -> UserToken:
-    data = _get_data('user/getUserToken', credentials.dict())
+    data = _get_result('user/getUserToken', credentials.dict())
     return UserTokenData(**data).UserToken
 
 
 def getPaymentsHistory(reqData: GetPaymentsHistory) -> PaymentsHistoryList:
-    data = _get_data('payment/getPaymentsHistory', reqData.dict())
-    return PaymentsResponse(**data).Result
+    return PaymentsHistoryList(**_get_result('payment/getPaymentsHistory', reqData.dict()))
 
 
 def getInvoicesHistory(reqData: GetInvoicesHistory) -> InvoicesHistoryList:
-    data = _get_data('payment/getInvoicesHistory', reqData.dict())
-    return InvoicesResponse(**data).Result
+    return InvoicesHistoryList(**_get_result('payment/getInvoicesHistory', reqData.dict()))

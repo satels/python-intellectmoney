@@ -32,7 +32,7 @@ class UserToken(str):
 
 class UserTokenData(BaseModel):
 
-    State: RequestState
+    State: OperationState
     UserToken: UserToken
 
 
@@ -97,6 +97,7 @@ class BaseResponse(BaseModel):
     OperationState: OperationState
     OperationId: UUID
     EshopId: Optional[int]
+    Result: Optional[dict]
 
 
 class Currency(str, Enum):
@@ -135,11 +136,8 @@ class HistoryData(BaseModel):
     RecipientAmount: Money
     PaymentAccount: str
     RecipientAccount: str
-    Comment: str
     Description: str
     InvoicePaymentType: PaymentType
-    RcCode: str
-    RcCodeUserDescription: str
 
 
 class InvoiceData(BaseModel):
@@ -154,12 +152,12 @@ class InvoiceData(BaseModel):
     Comment: str
     EShopId: int
     PurchaseOrderId: str
-    HistoryList: List[HistoryData]
+    HistoryList: Optional[List[HistoryData]]
 
 
 class InvoicesHistoryList(BaseModel):
 
-    State: RequestState
+    State: OperationState
     InvoicesHistoryList: List[InvoiceData]
 
 
@@ -181,7 +179,7 @@ class GetPaymentsHistory(BaseModel):
 
 class PaymentsHistoryList(BaseModel):
 
-    State: RequestState
+    State: OperationState
     InvoicesHistoryList: List[InvoiceData]
 
 
